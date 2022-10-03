@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Homework App</string>
+    <string name="show_changes">show changes</string>
+    <string name="increase_value">increase value</string>
+    <string name="change_color">change color</string>
+    <string name="image">image</string>
 </resources>
