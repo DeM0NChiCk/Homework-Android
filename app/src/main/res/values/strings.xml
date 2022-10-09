@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Homework App</string>
+    <string name="app_name">HomeTaskOne</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="generate_random_number">Generate random number</string>
+    <string name="second_fragment">Hello, I am Second Fragment!</string>
+    <string name="third_fragment">Hello, I am Third Fragment!</string>
+    <string name="first_fragment">First Fragment</string>
+    <string name="open_to_third_fragment">Open to third fragment</string>
 </resources>

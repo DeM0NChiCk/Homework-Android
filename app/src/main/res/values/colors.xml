@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="RED">#E83939</color>
+    <color name="GREEN">#4CAF50</color>
+    <color name="YELLOW">#FFEB3B</color>
+    <color name="BLUE">#3F51B5</color>
+
+    <array name="iv_colors_array">
+        <item>@color/RED</item>
+        <item>@color/GREEN</item>
+        <item>@color/YELLOW</item>
+        <item>@color/BLUE</item>
+    </array>
 </resources>
