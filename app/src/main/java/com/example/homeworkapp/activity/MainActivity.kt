@@ -3,7 +3,7 @@ package com.example.homeworkapp.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.homeworkapp.R
-import com.example.homeworkapp.fragment.FirstFragment
+import com.example.homeworkapp.fragment.PlayerFragment
 
 class   MainActivity : AppCompatActivity() {
 
@@ -13,13 +13,11 @@ class   MainActivity : AppCompatActivity() {
 
         supportFragmentManager.popBackStack()
 
-        actionBar?.title = "actionBar"
-
         supportFragmentManager.beginTransaction()
             .replace(
                 R.id.fragment_container_primary,
-                FirstFragment.getInstance(),
-                "breed"
+                PlayerFragment.getInstance(),
+                "music"
             )
             .commit()
     }
