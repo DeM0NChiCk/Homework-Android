@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Homework App</string>
+    <string name="tv_frg_a">Next Fragment 2</string>
+    <string name="tv_frg_a2">Next Fragment 3</string>
+    <string name="tv_frg_a3">Next Fragment 1</string>
+    <string name="tv_frg_b_2">I am Fragment B</string>
+    <string name="tv_frg_c">I am Fragment C</string>
+    <string name="tv_frg_c2">I am Fragment C2</string>
+    <string name="tv_frg_c3">I am Fragment C3</string>
+    <string name="letter_a">Fragment A</string>
+    <string name="letter_b">Fragment B</string>
+    <string name="letter_c">Fragment C</string>
+    <string name="enter_text">Enter text</string>
+    <string name="next_fragment">next fragment</string>
+    <string name="i_am_fragment_a">I am Fragment A</string>
+    <string name="i_am_fragment_a2">I am Fragment A2</string>
+    <string name="i_am_fragment_a3">I am Fragment A3</string>
+    <string name="next_fragment_c2">Next Fragment C2</string>
+    <string name="next_fragment_c3">Next Fragment C3</string>
+    <string name="next_fragment_c">Next Fragment C</string>
 </resources>
