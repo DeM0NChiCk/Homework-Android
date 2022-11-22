@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/cities_open_scanner"
+        android:title="@string/qr_code_scanner"
+        android:icon="@drawable/ic_qr_code_scanner"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/cities_change_sort"
+        android:title="@string/button_sort"
+        android:icon="@drawable/ic_baseline_sort_24"
+        app:showAsAction="always" />
+</menu>

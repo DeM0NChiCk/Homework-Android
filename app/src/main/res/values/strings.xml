@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">Homework App</string>
+    <string name="app_name">Homework App HW 7</string>
+    <string name="qr_code_scanner">QR CODE</string>
+    <string name="button_sort">Sort</string>
+    <string name="id">ID:</string>
+    <string name="text">EXAMPLE TEXT</string>
+    <string name="name">Name:</string>
+    <string name="qr_scanner">QR Scanner</string>
+    <string name="qr_code_scanner_permission_text">QR Code Scanner requires camera permission to operate</string>
+    <string name="qr_code_scanner_camera">Camera permission is needed</string>
+    <string name="go_to_settings">Go To Settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="invalid_qr_code">Invalid QR Code</string>
+    <string name="change_sort">Change sort</string>
+    <string name="click_to_reorder">Click to reorder. To change the sorting option, click the active button again.</string>
+    <string name="sort_by_id">Sort By ID</string>
+    <string name="sort_by_name">Sort By Name</string>
+    <string name="cities">Cities</string>
 </resources>
