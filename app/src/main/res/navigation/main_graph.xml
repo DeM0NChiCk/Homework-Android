@@ -3,73 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/AFragment">
+    app:startDestination="@id/recyclerFragment">
 
     <fragment
-        android:id="@+id/AFragment"
-        android:name="com.example.homeworkapp.fragment.AFragment"
-        android:label="AFragment"
-        tools:layout="@layout/fragment_a">
+        android:id="@+id/recyclerFragment"
+        android:name="com.example.homeworkapp.fragment.RecyclerFragment"
+        android:label="RecyclerFragment"
+        tools:layout="@layout/fragment_recycler">
         <action
-            android:id="@+id/action_AFragment_to_A2Fragment"
-            app:destination="@id/A2Fragment"/>
+            android:id="@+id/action_recyclerFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/CFragment"
-        android:name="com.example.homeworkapp.fragment.CFragment"
-        android:label="CFragment"
-        tools:layout="@layout/fragment_c">
+        android:id="@+id/scannerFragment"
+        android:name="com.example.homeworkapp.fragment.ScannerFragment"
+        android:label="ScannerFragment"
+        tools:layout="@layout/fragment_scanner_qr_code">
         <action
-            android:id="@+id/action_CFragment_to_C2Fragment"
-            app:destination="@id/C2Fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/BFragment"
-        android:name="com.example.homeworkapp.fragment.BFragment"
-        android:label="BFragment"
-        tools:layout="@layout/fragment_b">
-        <action
-            android:id="@+id/action_BFragment_to_B2Fragment"
-            app:destination="@id/B2Fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/B2Fragment"
-        android:name="com.example.homeworkapp.fragment.B2Fragment"
-        android:label="B2Fragment"
-        tools:layout="@layout/fragment_b2"/>
-    <fragment
-        android:id="@+id/A2Fragment"
-        android:name="com.example.homeworkapp.fragment.A2Fragment"
-        android:label="A2Fragment"
-        tools:layout="@layout/fragment_a2">
-        <action
-            android:id="@+id/action_A2Fragment_to_A3Fragment"
-            app:destination="@id/A3Fragment"
-            app:popUpTo="@id/A2Fragment"
-            app:popUpToInclusive="true"/>
-    </fragment>
-    <fragment
-        android:id="@+id/A3Fragment"
-        android:name="com.example.homeworkapp.fragment.A3Fragment"
-        android:label="A3Fragment"
-        tools:layout="@layout/fragment_a3"/>
-    <fragment
-        android:id="@+id/C2Fragment"
-        android:name="com.example.homeworkapp.fragment.C2Fragment"
-        android:label="C2Fragment"
-        tools:layout="@layout/fragment_c2"
-        >
-        <action
-            android:id="@+id/action_C2Fragment_to_C3Fragment"
-            app:destination="@id/C3Fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/C3Fragment"
-        android:name="com.example.homeworkapp.fragment.C3Fragment"
-        android:label="C3Fragment"
-        tools:layout="@layout/fragment_c3">
-        <action
-            android:id="@+id/action_C3Fragment_to_CFragment"
-            app:destination="@id/CFragment" />
+            android:id="@+id/action_scannerFragment_to_recyclerFragment"
+            app:destination="@id/recyclerFragment" />
     </fragment>
 </navigation>
