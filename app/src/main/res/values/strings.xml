@@ -10,6 +10,7 @@
     <string name="letter_a">Fragment A</string>
     <string name="letter_b">Fragment B</string>
     <string name="letter_c">Fragment C</string>
+    <string name="frg_fourth">Sheet Dialog</string>
     <string name="enter_text">Enter text</string>
     <string name="next_fragment">next fragment</string>
     <string name="i_am_fragment_a">I am Fragment A</string>
@@ -18,4 +19,5 @@
     <string name="next_fragment_c2">Next Fragment C2</string>
     <string name="next_fragment_c3">Next Fragment C3</string>
     <string name="next_fragment_c">Next Fragment C</string>
+    <string name="tv_frg_fourth">I am Fragment 4</string>
 </resources>

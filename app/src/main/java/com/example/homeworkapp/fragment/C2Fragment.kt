@@ -27,5 +27,6 @@ class C2Fragment: Fragment(R.layout.fragment_c2) {
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()
+        (requireActivity() as? MainActivity)?.changeBtnNavVisibility(true)
     }
 }

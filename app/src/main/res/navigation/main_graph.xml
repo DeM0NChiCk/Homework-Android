@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_a">
         <action
             android:id="@+id/action_AFragment_to_A2Fragment"
-            app:destination="@id/A2Fragment"/>
+            app:destination="@id/A2Fragment"
+            app:popUpTo="@id/A2Fragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/CFragment"
@@ -71,5 +73,20 @@
         <action
             android:id="@+id/action_C3Fragment_to_CFragment"
             app:destination="@id/CFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fourthFragment"
+        android:name="com.example.homeworkapp.fragment.FourthFragment"
+        android:label="FourthFragment"
+        tools:layout="@layout/fragment_fourth">
+        <action
+            android:id="@+id/action_fourthFragment_to_A3Fragment"
+            app:destination="@id/A3Fragment" />
+        <action
+            android:id="@+id/action_fourthFragment_to_B2Fragment"
+            app:destination="@id/B2Fragment" />
+        <action
+            android:id="@+id/action_fourthFragment_to_C2Fragment"
+            app:destination="@id/C2Fragment" />
     </fragment>
 </navigation>

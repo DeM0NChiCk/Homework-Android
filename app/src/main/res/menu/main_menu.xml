@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/AFragment"
         android:enabled="true"
@@ -18,4 +19,11 @@
         android:icon="@drawable/ic_letter_c_24"
         android:title="@string/letter_c"
         />
+    <item
+        android:id="@+id/FourthFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_frg_fourth_24"
+        android:title="@string/frg_fourth"
+        />
+
 </menu>
