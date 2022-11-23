@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Homework App</string>
+    <string name="ntf_title">Notification Title</string>
+    <string name="enable_long_text">Enable long text information</string>
+    <string name="ntf_text_info">Notification Text information</string>
+    <string name="long_text_info">Long text information</string>
+    <string name="timer_value_seconds">Timer value in seconds</string>
+    <string name="set_alarm_ntf">Alarm notification set</string>
+    <string name="cancel_alarm_ntf">Cancel alarm notification</string>
+    <string name="show_elapsed_realtime_toast">Show Elapsed Realtime Toast</string>
 </resources>
