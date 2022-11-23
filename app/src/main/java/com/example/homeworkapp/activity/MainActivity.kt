@@ -1,34 +1,56 @@
 package com.example.homeworkapp.activity
 
+import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.example.homeworkapp.R
+import com.example.homeworkapp.alarmlogic.receiver.AirplaneReceiver
 import com.example.homeworkapp.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.homeworkapp.fragment.MainFragment
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var controller: NavController
+class MainActivity: AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    private var broadcastReceiver: AirplaneReceiver? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
+        setAirplaneReceiver()
         setContentView(binding.root)
-
-        controller = (supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment).navController
-
-        val bottomView = findViewById<BottomNavigationView>(R.id.bottom_view)
-        bottomView.setupWithNavController(controller)
     }
 
-    fun changeBtnNavVisibility(isVisible: Boolean){
-        binding.bottomView.visibility = if (isVisible) View.VISIBLE else View.GONE
+    override fun onDestroy() {
+        removeAirplaneReceiver()
+        super.onDestroy()
     }
+
+    private fun callOnNetworkStateChanged(isConnected: Boolean) {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.container)
+
+        navHostFragment?.childFragmentManager?.fragments?.forEach {
+            if (it is MainFragment) {
+                it.onNetworkStateChanged(isConnected)
+            }
+        }
+    }
+
+    private fun setAirplaneReceiver() {
+        broadcastReceiver = AirplaneReceiver { isAirplaneModeEnabled ->
+            callOnNetworkStateChanged(!isAirplaneModeEnabled)
+        }
+        val intentFilter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
+        this.registerReceiver(broadcastReceiver!!, intentFilter)
+    }
+
+    private fun removeAirplaneReceiver() {
+        broadcastReceiver?.let {
+            this.unregisterReceiver(it)
+        }
+    }
+
 }
