@@ -1,6 +1,14 @@
 package com.example.homeworkapp.fragment
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.provider.Settings
@@ -8,57 +16,43 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.homeworkapp.R
-import com.example.homeworkapp.alarmlogic.setter.AlarmSetter
 import com.example.homeworkapp.databinding.FragmentMainBinding
-import com.google.android.material.textfield.TextInputEditText
+import com.example.homeworkapp.service.MyLocationService
 
 class MainFragment: Fragment(R.layout.fragment_main) {
+
+    private var shouldCheckLocationPermission = false
+
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
-
-    private var isConnected = true
-    private val alarmSetter by lazy { AlarmSetter(requireContext()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentMainBinding.bind(view)
 
         with(binding) {
-            ntfCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                longTextNtfInfo.isEnabled = isChecked
-            }
-            setTextWatchers()
-
-            btnAlarmNtfSet.setOnClickListener {
-                with(binding) {
-                    alarmSetter.setAlarm(
-                        editTextNtfTitle.text.toString(),
-                        editTextNtfInfo.text.toString(),
-                        editTextNtfTime.text.toString().toLong(),
-                        if (ntfCheckbox.isChecked)
-                            editTextLongNtfInfo.text.toString()
-                        else null
-                    )
+            with(requireActivity()){
+                btnStartLocationService.setOnClickListener {
+                    if (!isLocationEnabled(requireContext())) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Cannot start tracking while location is disabled",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        return@setOnClickListener
+                    }
+                    startForegroundService(MyLocationService.getServiceIntent(requireContext()))
+                }
+                btnStopLocationService.setOnClickListener {
+                    stopService(MyLocationService.getServiceIntent(requireContext()))
                 }
             }
 
-            btnAlarmNtfCancel.setOnClickListener {
-                alarmSetter.cancelAlarm()
-            }
-
-            btnShowElapsedRealtime.setOnClickListener{
-                Toast.makeText(
-                    requireContext(),
-                    "ElapsedRealtime: ${SystemClock.elapsedRealtime()} ms",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
-            if (isAirplaneModeOn(requireContext())) {
-                onNetworkStateChanged(false)
-            }
+            tryGetLocationPermission()
 
         }
     }
@@ -68,64 +62,120 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         super.onDestroyView()
     }
 
-    fun onNetworkStateChanged(isConnected: Boolean) {
-        this.isConnected = isConnected
-        toggleAllInputs(isConnected)
-    }
-
-    private fun toggleAllInputs(isEnabled: Boolean) {
-        with(binding) {
-            textNtfTitle.isEnabled = isEnabled
-            textNtfInfo.isEnabled = isEnabled
-            textNtfTime.isEnabled = isEnabled
-            ntfCheckbox.isEnabled = isEnabled
-            btnAlarmNtfCancel.isEnabled = isEnabled
-            btnShowElapsedRealtime.isEnabled = isEnabled
-
-            if (ntfCheckbox.isChecked) {
-                longTextNtfInfo.isEnabled = isEnabled
+    private val locationPermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                enableLocationTrackerButtons()
             }
-
-            if (isEnabled) {
-                checkSetAlarmButton()
-            } else {
-                btnAlarmNtfSet.isEnabled = false
+            permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                showCoarseLocationToast()
+                enableLocationTrackerButtons()
+            }
+            else -> {
+                showPermissionDialog()
             }
         }
     }
 
-    private fun setTextWatchers() {
-        val textWatcher: TextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable) {
-                checkSetAlarmButton()
+    private fun tryGetLocationPermission() {
+        val coarseLocationPermission = Manifest.permission.ACCESS_COARSE_LOCATION
+        val fineLocationPermission = Manifest.permission.ACCESS_FINE_LOCATION
+
+        when {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                fineLocationPermission
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                enableLocationTrackerButtons()
+            }
+
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                coarseLocationPermission
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                showCoarseLocationToast()
+                enableLocationTrackerButtons()
+            }
+
+            shouldShowRequestPermissionRationale(coarseLocationPermission)
+            -> {
+                showPermissionDialog()
+            }
+
+            else -> {
+                locationPermissionRequest.launch(
+                    arrayOf(
+                        coarseLocationPermission,
+                        fineLocationPermission
+                    )
+                )
             }
         }
+    }
 
-        with(binding) {
-            editTextNtfTitle.addTextChangedListener(textWatcher)
-            editTextNtfInfo.addTextChangedListener(textWatcher)
-            editTextNtfTime.addTextChangedListener(textWatcher)
+    @Suppress("DEPRECATION")
+    fun isLocationEnabled(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            val lm = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            lm.isLocationEnabled
+        } else {
+            val mode = Settings.Secure.getInt(
+                context.contentResolver, Settings.Secure.LOCATION_MODE,
+                Settings.Secure.LOCATION_MODE_OFF
+            )
+            mode != Settings.Secure.LOCATION_MODE_OFF
         }
     }
 
-    private fun checkSetAlarmButton() {
+    private fun enableLocationTrackerButtons() {
         with(binding) {
-            if (!isConnected) return
-
-            btnAlarmNtfSet.isEnabled =
-                !editTextNtfTitle.text.isNullOrBlank() &&
-                        !editTextNtfInfo.text.isNullOrBlank() &&
-                        !editTextNtfTime.text.isNullOrBlank()
+            btnStartLocationService.isEnabled = true
+            btnStopLocationService.isEnabled = true
         }
     }
 
-    private fun isAirplaneModeOn(context: Context): Boolean {
-        return Settings.Global.getInt(
-            context.contentResolver,
-            Settings.Global.AIRPLANE_MODE_ON, 0
-        ) != 0
+    private fun showPermissionDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.tracker_location)
+            .setMessage(R.string.tracker_permission_text)
+            .setPositiveButton(R.string.go_to_settings) { dialog, _ ->
+                permissionDialogPositiveClick(dialog)
+            }
+            .setNegativeButton(R.string.cancel) { dialog, _ -> dialog.dismiss() }
+            .create()
+            .show()
     }
+
+    private fun showCoarseLocationToast() {
+        Toast.makeText(
+            requireContext(),
+            "Poor tracking accuracy",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun permissionDialogPositiveClick(dialog: DialogInterface) {
+        dialog.dismiss()
+        shouldCheckLocationPermission = true
+        startActivity(Intent().apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts(
+                "package", requireContext().packageName, null
+            )
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (shouldCheckLocationPermission) {
+            tryGetLocationPermission()
+            shouldCheckLocationPermission = false
+        }
+    }
+
+
 
 }
