@@ -1,44 +1,35 @@
 package com.example.homeworkapp.activity
 
-import android.content.Intent
-import android.content.IntentFilter
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.homeworkapp.R
 import com.example.homeworkapp.databinding.ActivityMainBinding
-import com.example.homeworkapp.receiver.LocationReceiver
-import com.example.homeworkapp.service.MyLocationService
+import com.example.homeworkapp.db.DatabaseHandler
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity: AppCompatActivity() {
+
+    private lateinit var controller: NavController
 
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    private var locationReceiver: LocationReceiver? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setLocationReceiver()
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        DatabaseHandler.dbInitialize(applicationContext)
+
+        controller = (supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment).navController
+        val bottomView = findViewById<BottomNavigationView>(R.id.bottom_view)
+        bottomView.setupWithNavController(controller)
     }
 
-    override fun onDestroy() {
-        stopService(MyLocationService.getServiceIntent(applicationContext))
-        locationReceiver?.let {
-            this.unregisterReceiver(it)
-        }
-
-        super.onDestroy()
-    }
-
-    private fun setLocationReceiver() {
-        locationReceiver = LocationReceiver()
-        val intentFilter = IntentFilter()
-        intentFilter.apply {
-            addAction(LocationManager.MODE_CHANGED_ACTION)
-            addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED)
-        }
-        this.registerReceiver(locationReceiver!!, intentFilter)
+    fun changeBtnNavVisibility(isVisible: Boolean){
+        binding.bottomView.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

@@ -3,11 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/authorizationFragment">
+
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.homeworkapp.fragment.MainFragment"
-        android:label="MainFragment"
-        tools:layout="@layout/fragment_main"/>
+        android:id="@+id/authorizationFragment"
+        android:name="com.example.homeworkapp.fragment.AuthorizationFragment"
+        android:label="AuthorizationFragment"
+        tools:layout="@layout/fragment_user_auth">
+        <action
+            android:id="@+id/action_authorizationFragment_to_newUserRegFragment"
+            app:destination="@id/newUserRegFragment" />
+        <action
+            android:id="@+id/action_authorizationFragment_to_personalAccFragment"
+            app:destination="@id/personalAccFragment"
+            app:popUpTo="@id/authorizationFragment"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.homeworkapp.fragment.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_authorizationFragment"
+            app:destination="@id/authorizationFragment"
+            app:popUpTo="@id/settingsFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/newUserRegFragment"
+        android:name="com.example.homeworkapp.fragment.NewUserRegFragment"
+        android:label="NewUserRegFragment"
+        tools:layout="@layout/fragment_new_user_reg">
+        <action
+            android:id="@+id/action_newUserRegFragment_to_authorizationFragment"
+            app:destination="@id/authorizationFragment"
+            app:popUpTo="@id/newUserRegFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/personalAccFragment"
+        android:name="com.example.homeworkapp.fragment.PersonalAccFragment"
+        android:label="PersonalAccFragment"
+        tools:layout="@layout/fragment_personal_account">
+        <action
+            android:id="@+id/action_personalAccFragment_to_authorizationFragment"
+            app:destination="@id/authorizationFragment"
+            app:popUpTo="@id/personalAccFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>
