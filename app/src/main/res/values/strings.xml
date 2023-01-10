@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Homework App</string>
+    <string name="registration">Registration</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="authorization">Authorization</string>
+    <string name="sign_in">Sign in</string>
+    <string name="checkbox_one">Checkbox one</string>
+    <string name="checkbox_two">Checkbox two</string>
+    <string name="checkbox_three">Checkbox three</string>
+    <string name="settings">Settings</string>
+    <string name="personal_account">Personal account</string>
+    <string name="login_acc">Login: \n%1$s</string>
+    <string name="change">change</string>
+    <string name="exit">Exit</string>
+    <string name="write_new_login">Write new Login</string>
+    <string name="save">Save</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="login_not_found">Login not found</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="edit">edit</string>
+    <string name="login_already_exists">Login already exists</string>
+    <string name="name">Name</string>
+    <string name="name_person">Name: \n%1$s</string>
+
+
 </resources>
